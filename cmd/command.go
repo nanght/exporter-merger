@@ -67,6 +67,7 @@ func (app *App) Bind(cmd *cobra.Command) {
 		"listen-port", 8080,
 		"Listen port for the HTTP server. (ENV:MERGER_PORT)")
 	app.viper.BindPFlag("port", cmd.PersistentFlags().Lookup("listen-port"))
+
 	cmd.PersistentFlags().String(
 		"listen-address", "",
 		"Listen address for the HTTP server. (ENV:MERGE_ADDRESS)")
