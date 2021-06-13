@@ -67,9 +67,8 @@ func (app *App) Bind(cmd *cobra.Command) {
 		"listen-port", 8080,
 		"Listen port for the HTTP server. (ENV:MERGER_PORT)")
 	app.viper.BindPFlag("port", cmd.PersistentFlags().Lookup("listen-port"))
-
 	cmd.PersistentFlags().String(
-		"listen-address", "127.0.0.1",
+		"listen-address", "",
 		"Listen address for the HTTP server. (ENV:MERGE_ADDRESS)")
 	app.viper.BindPFlag("address", cmd.PersistentFlags().Lookup("listen-address"))
 
@@ -96,8 +95,8 @@ func (app *App) run(cmd *cobra.Command, args []string) {
 	})
 
 	port := app.viper.GetInt("port")
-	address := app.viper.GetString("address")
-	log.Infof("starting HTTP server on address:port %s:%d", address, port)
+	address := strings.TrimSpace(app.viper.GetString("address"))
+	log.Infof("starting HTTP server on %s:%d", address, port)
 	err := http.ListenAndServe(fmt.Sprintf("%s:%d", address, port), nil)
 	if err != nil {
 		log.Fatal(err)
